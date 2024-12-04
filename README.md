@@ -1,6 +1,6 @@
 # Game Downloader
 
-Welcome to the Game Downloader! 🎮 This is a simple yet powerful tool to help you download and manage your favorite games from various platforms.
+Welcome to the Game Downloader! 🎮 This is a simple yet powerful tool to help you download your favorite games from various platforms.
 
 ## Features
 - **Download Games:** Easily download games from popular platforms like Steam, Epic Games, and GOG.

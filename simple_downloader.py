@@ -241,13 +241,22 @@ def download_game(game):
 
 def get_version_info(game):
     """Get version information with fallback to default values"""
-    if 'versions' in game and game['versions']:
-        latest = game['versions'][-1]
-        return {
-            'version': latest.get('version', 'N/A'),
-            'date': datetime.strptime(latest.get('date', '2000-01-01T00:00:00Z'), '%Y-%m-%dT%H:%M:%SZ').strftime('%Y-%m-%d %H:%M'),
-            'changes': latest.get('changes', 'No change information')
-        }
+    if 'source' in game:
+        if game['source'] == 'steam':
+            if 'versions' in game and game['versions']:
+                latest = game['versions'][-1]
+                return {
+                    'version': latest.get('version', 'N/A'),
+                    'date': datetime.strptime(latest.get('date', '2000-01-01T00:00:00Z'), '%Y-%m-%dT%H:%M:%SZ').strftime('%Y-%m-%d %H:%M'),
+                    'changes': latest.get('changes', 'No change information'),
+                    'store_url': f"https://store.steampowered.com/app/{game.get('app_id', 'N/A')}"
+                }
+        elif game['source'] == 'non-steam':
+            return {
+                'version': game.get('release_date', 'N/A'),
+                'date': game.get('release_date', 'N/A'),
+                'changes': game.get('publisher', 'No publisher information')
+            }
     return {
         'version': 'N/A',
         'date': 'N/A',
@@ -310,7 +319,7 @@ def display_game_details(game):
     while True:
         console.clear()
         game_info = get_game_info(game['app_id'])
-        store_name = get_store_name(game['store_url'])
+        store_name = get_store_name(game.get('store_url', ''))
         version_info = get_version_info(game)
         
         # Display game info
@@ -337,7 +346,7 @@ def display_game_details(game):
         choice = Prompt.ask("Select an option", choices=["1", "2", "3", "4"], show_choices=False)
         
         if choice == "1":
-            open_store_page(game['store_url'])
+            open_store_page(version_info['store_url'])
             console.print(f"\n[green]Opening {store_name} store page...[/green]")
             time.sleep(1)
         elif choice == "2":

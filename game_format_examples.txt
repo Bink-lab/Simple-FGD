@@ -1,0 +1,32 @@
+# Game Format Examples
+
+## Steam Game Example
+```
+{
+  "title": "Example Steam Game",
+  "source": "steam",
+  "app_id": "123456",
+  "downloads": [
+    {
+      "url": "https://example.com/download"
+    }
+  ]
+}
+```
+
+## Non-Steam Game Example
+```
+{
+  "title": "Example Non-Steam Game",
+  "source": "non-steam",
+  "publisher": "Example Publisher",
+  "release_date": "2023-01-01",
+  "downloads": [
+    {
+      "url": "https://example.com/download"
+    }
+  ]
+}
+```
+
+This file provides examples of how to format game entries for both Steam and non-Steam games in the JSON file. Use these as templates when adding new games.

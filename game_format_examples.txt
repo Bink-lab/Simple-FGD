@@ -3,7 +3,7 @@
 ## Steam Game Example
 ```
 {
-  "title": "Example Steam Game",
+  "title": "Example Steam Game",  // This will be fetched from the Steam API
   "source": "steam",
   "app_id": "123456",
   "downloads": [

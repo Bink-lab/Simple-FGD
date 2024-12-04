@@ -1,64 +1,20 @@
 {
   "games": [
     {
-      "title": "Hades",
       "source": "steam",
-      "app_id": "1145360",
+      "app_id": "2707900",
       "downloads": [
         {
-          "url": "https://drive.google.com/file/d/your-file-id"
+          "url": "https://gofile.io/d/BqU7kf"
         }
-      ]
-    },
-    {
-      "title": "Portal 2",
-      "source": "steam",
-      "app_id": "620",
-      "downloads": [
+      ],
+      "versions": [
         {
-          "url": "https://mega.nz/file/your-file-id"
-        }
-      ]
-    },
-    {
-      "title": "Non-Steam Game",
-      "source": "non-steam",
-      "publisher": "Indie Dev",
-      "release_date": "2023-01-01",
-      "downloads": [
-        {
-          "url": "https://example.com/download"
+          "version": "14270798",
+          "date": "2023-12-04",
+          "changes": "Latest version"
         }
       ]
     }
   ]
 }
-
-// Example Steam Game
-/*
-{
-  "title": "Example Steam Game",
-  "source": "steam",
-  "app_id": "123456",
-  "downloads": [
-    {
-      "url": "https://example.com/download"
-    }
-  ]
-}
-*/
-
-// Example Non-Steam Game
-/*
-{
-  "title": "Example Non-Steam Game",
-  "source": "non-steam",
-  "publisher": "Example Publisher",
-  "release_date": "2023-01-01",
-  "downloads": [
-    {
-      "url": "https://example.com/download"
-    }
-  ]
-}
-*/

@@ -15,7 +15,7 @@ import subprocess
 
 console = Console()
 
-GITHUB_RAW_URL = "https://raw.githubusercontent.com/bonkerd/bonkerd.github.io/refs/heads/main/games.json"
+GITHUB_RAW_URL = "https://raw.githubusercontent.com/Bink-lab/Simple-FGD/refs/heads/main/games.json"
 DOWNLOADS_DIR = "downloads"
 
 def get_store_name(url):
@@ -79,12 +79,13 @@ def get_game_info(app_id):
         if data and data.get(str(app_id), {}).get('success'):
             game_data = data[str(app_id)]['data']
             return {
+                'title': game_data.get('name', 'Unknown Title'),
                 'description': game_data.get('short_description', 'No description available'),
                 'size': extract_size_from_requirements(game_data.get('pc_requirements', {}).get('minimum', ''))
             }
-        return {'description': 'No description available', 'size': 'Unknown size'}
+        return {'title': 'Unknown Title', 'description': 'No description available', 'size': 'Unknown size'}
     except Exception as e:
-        return {'description': f'Error fetching info: {e}', 'size': 'Unknown size'}
+        return {'title': 'Unknown Title', 'description': f'Error fetching info: {e}', 'size': 'Unknown size'}
 
 def load_games_data():
     # First try to load local file
@@ -247,7 +248,7 @@ def get_version_info(game):
                 latest = game['versions'][-1]
                 return {
                     'version': latest.get('version', 'N/A'),
-                    'date': datetime.strptime(latest.get('date', '2000-01-01T00:00:00Z'), '%Y-%m-%dT%H:%M:%SZ').strftime('%Y-%m-%d %H:%M'),
+                    'date': datetime.strptime(latest.get('date', '2000-01-01'), '%Y-%m-%d').strftime('%Y-%m-%d'),
                     'changes': latest.get('changes', 'No change information'),
                     'store_url': f"https://store.steampowered.com/app/{game.get('app_id', 'N/A')}"
                 }
@@ -273,13 +274,19 @@ def display_game_list(games, sort_by_date=False):
         table.add_column("Last Updated", style="yellow")
         
         game_list = games['games']
+        # Fetch titles for Steam games
+        for game in game_list:
+            if game['source'] == 'steam':
+                game_info = get_game_info(game['app_id'])
+                game['title'] = game_info['title']
+
         if sort_by_date:
             # Only sort by date if version information is available
             game_list = sorted(
                 game_list,
                 key=lambda x: datetime.strptime(
-                    x.get('versions', [{'date': '2000-01-01T00:00:00Z'}])[-1].get('date', '2000-01-01T00:00:00Z'),
-                    '%Y-%m-%dT%H:%M:%SZ'
+                    x.get('versions', [{'date': '2000-01-01'}])[-1].get('date', '2000-01-01'),
+                    '%Y-%m-%d'
                 ),
                 reverse=True
             )
@@ -319,7 +326,12 @@ def display_game_details(game):
     while True:
         console.clear()
         game_info = get_game_info(game['app_id'])
-        store_name = get_store_name(game.get('store_url', ''))
+        # Construct the store URL for Steam games if not provided
+        if game['source'] == 'steam':
+            store_url = f"https://store.steampowered.com/app/{game['app_id']}"
+        else:
+            store_url = game.get('store_url', '')
+        store_name = get_store_name(store_url)
         version_info = get_version_info(game)
         
         # Display game info
@@ -346,7 +358,7 @@ def display_game_details(game):
         choice = Prompt.ask("Select an option", choices=["1", "2", "3", "4"], show_choices=False)
         
         if choice == "1":
-            open_store_page(version_info['store_url'])
+            open_store_page(store_url)
             console.print(f"\n[green]Opening {store_name} store page...[/green]")
             time.sleep(1)
         elif choice == "2":

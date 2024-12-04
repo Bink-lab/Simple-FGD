@@ -1,0 +1,24 @@
+{
+  "games": [
+    {
+      "title": "Hades",
+      "store_url": "https://store.steampowered.com/app/1145360",
+      "app_id": "1145360",
+      "downloads": [
+        {
+          "url": "https://drive.google.com/file/d/your-file-id"
+        }
+      ]
+    },
+    {
+      "title": "Portal 2",
+      "store_url": "https://store.steampowered.com/app/620",
+      "app_id": "620",
+      "downloads": [
+        {
+          "url": "https://mega.nz/file/your-file-id"
+        }
+      ]
+    }
+  ]
+}
